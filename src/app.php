@@ -5,14 +5,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
 
-function is_leap_year($year = null) {
-	if (null === $year) {
-		$year = date("Y");
-	}
-
-	return 0 === $year % 400 || (0 === $year % 4 && 0 !== $year % 100);
-}
-
 $routes = new RouteCollection();
 
 $routes->add('hello', new Route('/hello/{name}', [
