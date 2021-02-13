@@ -11,7 +11,9 @@ $routes->add('hello', new Route('/hello/{name}', [
 	"_controller" => "App\Controller\HelloController::helloAction"
 ]));
 
-$routes->add('bye', new Route('/bye'));
+$routes->add('bye', new Route('/bye', [
+	"_controller" => "App\Controller\ByeController::byeAction"
+]));
 
 $routes->add("leap_year", new Route("/is_leap_year/{year}", [
 	"year" => null,
