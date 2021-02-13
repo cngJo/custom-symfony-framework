@@ -1,0 +1,17 @@
+{
+    "name": "johannes/custom-symfony-framework",
+    "description": "custom symfony framework",
+    "type": "framework",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Johannes Przymusinski",
+            "email": "johannes.przymusinski@jop-software.de"
+        }
+    ],
+    "require": {
+        "phpunit/phpunit": "^9.5",
+        "symfony/http-foundation": "^5.2",
+        "symfony/routing": "^5.2"
+    }
+}
