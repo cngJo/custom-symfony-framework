@@ -9,23 +9,37 @@ use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\RouteCollection;
 
 class Framework
 {
 	/**
+	 * @var UrlMatcher
+	 */
+	private UrlMatcher $urlMatcher;
+
+	/**
+	 * @var ControllerResolver
+	 */
+	private ControllerResolver $controllerResolver;
+
+	/**
+	 * @var ArgumentResolver
+	 */
+	private ArgumentResolver $argumentResolver;
+
+	/**
 	 * Framework constructor.
 	 *
-	 * @param UrlMatcher $urlMatcher
-	 * @param ControllerResolver $controllerResolver
-	 * @param ArgumentResolver $argumentResolver
+	 * @param RouteCollection $routes
 	 */
-	public function __construct(
-		private UrlMatcher $urlMatcher,
-		private ControllerResolver $controllerResolver,
-		private ArgumentResolver $argumentResolver
-	)
+	public function __construct(RouteCollection $routes)
 	{
-		// Silence is golden
+		$this->urlMatcher = new UrlMatcher($routes, new RequestContext());
+
+		$this->controllerResolver = new ControllerResolver();
+		$this->argumentResolver = new ArgumentResolver();
 	}
 
 	/**
