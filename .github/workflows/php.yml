@@ -1,4 +1,4 @@
-name: PHP Composer
+name: PHP Pipeline
 
 on:
   push:
@@ -29,7 +29,7 @@ jobs:
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress --no-suggest
-    
+
     - name: PHPUnit tests
       uses: php-actions/phpunit@v2
       with:
