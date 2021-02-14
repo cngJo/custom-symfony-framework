@@ -9,15 +9,16 @@ use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 
 class Framework
 {
 	/**
-	 * @var UrlMatcher
+	 * @var UrlMatcherInterface
 	 */
-	private UrlMatcher $urlMatcher;
+	private UrlMatcherInterface $urlMatcher;
 
 	/**
 	 * @var ControllerResolver
@@ -64,6 +65,32 @@ class Framework
 		} catch (Exception $exception) {
 			return new Response("Internal Server Error", 500);
 		}
+	}
+
+	/// Provide setters to change the default instantiated classes
+
+	/**
+	 * @param UrlMatcherInterface $urlMatcher
+	 */
+	public function setUrlMatcher(UrlMatcherInterface $urlMatcher): void
+	{
+		$this->urlMatcher = $urlMatcher;
+	}
+
+	/**
+	 * @param ControllerResolver $controllerResolver
+	 */
+	public function setControllerResolver(ControllerResolver $controllerResolver): void
+	{
+		$this->controllerResolver = $controllerResolver;
+	}
+
+	/**
+	 * @param ArgumentResolver $argumentResolver
+	 */
+	public function setArgumentResolver(ArgumentResolver $argumentResolver): void
+	{
+		$this->argumentResolver = $argumentResolver;
 	}
 
 }
