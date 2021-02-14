@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Event\ResponseEvent;
 use Exception;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
@@ -31,6 +33,11 @@ class Framework
 	private ArgumentResolver $argumentResolver;
 
 	/**
+	 * @var EventDispatcher
+	 */
+	private EventDispatcher $eventDispatcher;
+
+	/**
 	 * Framework constructor.
 	 *
 	 * @param RouteCollection $routes
@@ -41,6 +48,8 @@ class Framework
 
 		$this->controllerResolver = new ControllerResolver();
 		$this->argumentResolver = new ArgumentResolver();
+
+		$this->eventDispatcher = new EventDispatcher();
 	}
 
 	/**
@@ -59,12 +68,16 @@ class Framework
 			$controller = $this->controllerResolver->getController($request);
 			$arguments = $this->argumentResolver->getArguments($request, $controller);
 
-			return call_user_func_array($controller, $arguments);
+			$response =  call_user_func_array($controller, $arguments);
 		} catch (ResourceNotFoundException $exception){
-			return new Response("Not Found", 404);
+			$response =  new Response("Not Found", 404);
 		} catch (Exception $exception) {
-			return new Response("Internal Server Error", 500);
+			$response =  new Response("Internal Server Error", 500);
 		}
+
+		$this->eventDispatcher->dispatch(new ResponseEvent($response, $request), "response");
+
+		return $response;
 	}
 
 	/// Provide setters to change the default instantiated classes
@@ -93,4 +106,11 @@ class Framework
 		$this->argumentResolver = $argumentResolver;
 	}
 
+	/**
+	 * @param EventDispatcher $eventDispatcher
+	 */
+	public function setEventDispatcher(EventDispatcher $eventDispatcher): void
+	{
+		$this->eventDispatcher = $eventDispatcher;
+	}
 }
