@@ -4,3 +4,6 @@
 
 Following along the documentation at
 https://symfony.com/doc/current/create_framework/index.html
+
+## Code-Coverage
+` php -dxdebug.mode=coverage ./vendor/bin/phpunit --coverage-text`
