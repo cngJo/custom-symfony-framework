@@ -11,10 +11,10 @@ class HelloController
 	/**
 	 * @param Request $request
 	 * @param string $name
-	 * @return Response
+	 * @return string
 	 */
-	public function helloAction(Request $request, string $name = "World"): Response
+	public function helloAction(Request $request, string $name = "World"): string
 	{
-		return new Response("Hello, $name");
+		return "Hello, $name";
 	}
 }

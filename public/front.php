@@ -3,6 +3,7 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 use App\Framework;
+use App\Listener\StringResponseListener;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +29,7 @@ $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new RouterListener($matcher, $requestStack));
 $dispatcher->addSubscriber(new ErrorListener("App\Controller\ErrorController::exception"));
 $dispatcher->addSubscriber(new ResponseListener("UTF-8"));
+$dispatcher->addSubscriber(new StringResponseListener());
 
 $framework = new Framework($dispatcher, $controllerResolver, $requestStack, $argumentResolver);
 
