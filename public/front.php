@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel;
 use Symfony\Component\HttpKernel\EventListener\ErrorListener;
+use Symfony\Component\HttpKernel\EventListener\ResponseListener;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\Routing;
 
@@ -26,6 +27,7 @@ $argumentResolver = new HttpKernel\Controller\ArgumentResolver();
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new RouterListener($matcher, $requestStack));
 $dispatcher->addSubscriber(new ErrorListener("App\Controller\ErrorController::exception"));
+$dispatcher->addSubscriber(new ResponseListener("UTF-8"));
 
 $framework = new Framework($dispatcher, $controllerResolver, $requestStack, $argumentResolver);
 
