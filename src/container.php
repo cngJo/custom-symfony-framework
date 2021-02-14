@@ -11,7 +11,7 @@ use Symfony\Component\Routing;
 $containerBuilder = new DependencyInjection\ContainerBuilder();
 $containerBuilder->register('context', Routing\RequestContext::class);
 $containerBuilder->register('matcher', Routing\Matcher\UrlMatcher::class)
-	->setArguments([$routes, new Reference('context')])
+	->setArguments(["%routes%", new Reference('context')])
 ;
 $containerBuilder->register('request_stack', HttpFoundation\RequestStack::class);
 $containerBuilder->register('controller_resolver', HttpKernel\Controller\ControllerResolver::class);
@@ -21,7 +21,7 @@ $containerBuilder->register('listener.router', HttpKernel\EventListener\RouterLi
 	->setArguments([new Reference('matcher'), new Reference('request_stack')])
 ;
 $containerBuilder->register('listener.response', HttpKernel\EventListener\ResponseListener::class)
-	->setArguments(['UTF-8'])
+	->setArguments(['%charset%'])
 ;
 $containerBuilder->register('listener.exception', HttpKernel\EventListener\ErrorListener::class)
 	->setArguments(['App\Controller\ErrorController::exception'])
