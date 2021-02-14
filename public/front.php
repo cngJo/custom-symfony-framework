@@ -25,11 +25,7 @@ $argumentResolver = new HttpKernel\Controller\ArgumentResolver();
 
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new RouterListener($matcher, $requestStack));
-$dispatcher->addSubscriber(new ErrorListener(function (FlattenException $exception) {
-	$message = "Something went wrong! ({$exception->getMessage()})";
-
-	return new Response($message, $exception->getStatusCode());
-}));
+$dispatcher->addSubscriber(new ErrorListener("App\Controller\ErrorController::exception"));
 
 $framework = new Framework($dispatcher, $controllerResolver, $requestStack, $argumentResolver);
 
