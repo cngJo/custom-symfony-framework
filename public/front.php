@@ -7,6 +7,7 @@ use App\Listener\ContentLengthListener;
 use App\Listener\GoogleListener;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpKernel\HttpCache\Esi;
 use Symfony\Component\HttpKernel\HttpCache\HttpCache;
 use Symfony\Component\HttpKernel\HttpCache\Store;
 
@@ -23,7 +24,8 @@ $framework->setEventDispatcher($dispatcher);
 
 $framework = new HttpCache(
 	$framework,
-	new Store(__DIR__."/../cache")
+	new Store(__DIR__."/../cache"),
+	new Esi()
 );
 
 $response = $framework->handle($request);
